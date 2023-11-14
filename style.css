@@ -3,12 +3,9 @@ body {
   display: flex;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   height: 100vh;
-}
-
-#app {
-  height: 600px;
-  margin: auto;
-  min-width: 600px;
+  width: 100vw;
+  justify-content: center;
+  align-items: center;
 }
 
 .game-details {
@@ -22,6 +19,17 @@ body {
 
 .play-board {
   background-color: #506266;
-  height: 100%;
-  width: 100%;
+  display: grid;
+  grid-template-rows: repeat(21, 1fr);
+  grid-template-columns: repeat(21, 1fr);
+  height: 90vmin;
+  width: 90vmin;
+}
+
+.play-board__snake {
+  background-color: #A3AB78;
+}
+
+.play-board__food {
+  background-color: #BDE038;
 }
