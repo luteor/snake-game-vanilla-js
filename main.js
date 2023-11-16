@@ -5,11 +5,13 @@ const gridSize = 21;
 const playBoardElement = document.querySelector(".play-board");
 
 let food = { xFoodPosition: null, yFoodPosition: null };
+let snake = { xSnakePosition: null, ySnakePosition: null };
 
 startGame();
 
 function startGame() {
   displayFood();
+  displaySnake();
 }
 
 function displayFood() {
@@ -22,6 +24,18 @@ function displayFood() {
   foodElement.style.gridArea = `${food.yFoodPosition}/${food.xFoodPosition}`;
 
   playBoardElement.appendChild(foodElement);
+}
+
+function displaySnake() {
+  const randomGridCoordinates = geRandomGridCoordinates(gridSize);
+  snake.xSnakePosition = randomGridCoordinates.randomXPosition;
+  snake.ySnakePosition = randomGridCoordinates.randomYPosition;
+
+  const snakeElement = document.createElement("div");
+  snakeElement.classList.add("play-board__snake");
+  snakeElement.style.gridArea = `${snake.ySnakePosition}/${snake.xSnakePosition}`;
+
+  playBoardElement.appendChild(snakeElement);
 }
 
 function geRandomGridCoordinates(gridSize) {
