@@ -49,27 +49,34 @@ function initSnake() {
 }
 
 function moveSnake() {
-  const snakeElement = document.querySelectorAll(".play-board__snake");
-  snakeElement.forEach((element) => {
+  // Remove all existing snake elements from the play board
+  const snakeElements = document.querySelectorAll(".play-board__snake");
+  snakeElements.forEach((element) => {
     element.remove();
   });
 
+  // Update the snake's head position based on its velocity
   snake.xSnakePosition += snake.xSnakeVelocity;
   snake.ySnakePosition += snake.ySnakeVelocity;
 
+  // Check if the snake has collided with the food
   if (
     snake.xSnakePosition === food.xFoodPosition &&
     snake.ySnakePosition === food.yFoodPosition
   ) {
+    // If so, handle the snake eating the food
     snakeEats();
   }
 
+  // Move each segment of the snake's body to the position of the segment in front of it
   for (let i = snake.body.length - 1; i > 0; i--) {
     snake.body[i] = [...snake.body[i - 1]];
   }
 
+  // Update the position of the snake's head in its body array
   snake.body[0] = [snake.xSnakePosition, snake.ySnakePosition];
 
+  // Create new elements for each segment of the snake's body and append them to the play board
   for (let i = 0; i < snake.body.length; i++) {
     const snakeBodyElement = document.createElement("div");
     snakeBodyElement.classList.add("play-board__snake");
