@@ -11,6 +11,7 @@ let snake = {
   xSnakeVelocity: 1,
   ySnakeVelocity: 0,
 };
+let score = 0;
 
 startGame();
 
@@ -52,6 +53,13 @@ function moveSnake() {
   snake.xSnakePosition += snake.xSnakeVelocity;
   snake.ySnakePosition += snake.ySnakeVelocity;
 
+  if (
+    snake.xSnakePosition === food.xFoodPosition &&
+    snake.ySnakePosition === food.yFoodPosition
+  ) {
+    snakeEats();
+  }
+
   snakeElement.style.gridArea = `${snake.ySnakePosition}/${snake.xSnakePosition}`;
 }
 
@@ -89,4 +97,12 @@ function geRandomGridCoordinates(gridSize) {
   };
 
   return randomGridCoordinates;
+}
+
+function snakeEats() {
+  document.querySelector(".play-board__food").remove();
+  score++;
+  const scoreElement = document.querySelector(".game-details__score");
+  scoreElement.textContent = `Score:${score}`;
+  displayFood();
 }
