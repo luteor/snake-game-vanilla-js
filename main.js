@@ -1,7 +1,7 @@
 import "./reset.css";
 import "./style.css";
 
-const gridSize = 21;
+const gridSize = 19;
 const playBoardElement = document.querySelector(".play-board");
 
 let food = { xFoodPosition: null, yFoodPosition: null };
@@ -10,16 +10,17 @@ let snake = {
   ySnakePosition: null,
   xSnakeVelocity: 1,
   ySnakeVelocity: 0,
+  body: [],
 };
 let score = 0;
 
 startGame();
 
 function startGame() {
-  initSnake();
   displayFood();
+  initSnake();
   document.addEventListener("keydown", handleKeyPress);
-  setInterval(moveSnake, 200);
+  setInterval(moveSnake, 150);
 }
 
 function displayFood() {
@@ -35,20 +36,23 @@ function displayFood() {
 }
 
 function initSnake() {
-  const snakeElement = document.createElement("div");
-  snakeElement.classList.add("play-board__snake");
+  const snakeHeadElement = document.createElement("div");
+  snakeHeadElement.classList.add("play-board__snake");
 
   const randomGridCoordinates = geRandomGridCoordinates(gridSize);
   snake.xSnakePosition = randomGridCoordinates.randomXPosition;
   snake.ySnakePosition = randomGridCoordinates.randomYPosition;
 
-  snakeElement.style.gridArea = `${snake.ySnakePosition}/${snake.xSnakePosition}`;
+  snakeHeadElement.style.gridArea = `${snake.ySnakePosition}/${snake.xSnakePosition}`;
 
-  playBoardElement.appendChild(snakeElement);
+  playBoardElement.appendChild(snakeHeadElement);
 }
 
 function moveSnake() {
-  const snakeElement = document.querySelector(".play-board__snake");
+  const snakeElement = document.querySelectorAll(".play-board__snake");
+  snakeElement.forEach((element) => {
+    element.remove();
+  });
 
   snake.xSnakePosition += snake.xSnakeVelocity;
   snake.ySnakePosition += snake.ySnakeVelocity;
@@ -60,18 +64,29 @@ function moveSnake() {
     snakeEats();
   }
 
-  snakeElement.style.gridArea = `${snake.ySnakePosition}/${snake.xSnakePosition}`;
+  for (let i = snake.body.length - 1; i > 0; i--) {
+    snake.body[i] = [...snake.body[i - 1]];
+  }
+
+  snake.body[0] = [snake.xSnakePosition, snake.ySnakePosition];
+
+  for (let i = 0; i < snake.body.length; i++) {
+    const snakeBodyElement = document.createElement("div");
+    snakeBodyElement.classList.add("play-board__snake");
+    snakeBodyElement.style.gridArea = `${snake.body[i][1]}/${snake.body[i][0]}`;
+    playBoardElement.appendChild(snakeBodyElement);
+  }
 }
 
 function handleKeyPress(event) {
   switch (event.key) {
     case "ArrowUp":
-      snake.ySnakeVelocity = -1;
       snake.xSnakeVelocity = 0;
+      snake.ySnakeVelocity = -1;
       break;
     case "ArrowDown":
-      snake.ySnakeVelocity = 1;
       snake.xSnakeVelocity = 0;
+      snake.ySnakeVelocity = 1;
       break;
     case "ArrowLeft":
       snake.xSnakeVelocity = -1;
@@ -104,5 +119,8 @@ function snakeEats() {
   score++;
   const scoreElement = document.querySelector(".game-details__score");
   scoreElement.textContent = `Score:${score}`;
+
+  snake.body.push([food.xFoodPosition, food.yFoodPosition]);
+
   displayFood();
 }
