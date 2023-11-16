@@ -11,7 +11,7 @@ startGame();
 
 function startGame() {
   displayFood();
-  displaySnake();
+  displayAndMoveSnake();
 }
 
 function displayFood() {
@@ -26,16 +26,39 @@ function displayFood() {
   playBoardElement.appendChild(foodElement);
 }
 
-function displaySnake() {
-  const randomGridCoordinates = geRandomGridCoordinates(gridSize);
-  snake.xSnakePosition = randomGridCoordinates.randomXPosition;
-  snake.ySnakePosition = randomGridCoordinates.randomYPosition;
-
+function displayAndMoveSnake() {
   const snakeElement = document.createElement("div");
   snakeElement.classList.add("play-board__snake");
-  snakeElement.style.gridArea = `${snake.ySnakePosition}/${snake.xSnakePosition}`;
 
-  playBoardElement.appendChild(snakeElement);
+  if (snake.xSnakePosition === null && snake.ySnakePosition === null) {
+    const randomGridCoordinates = geRandomGridCoordinates(gridSize);
+    snake.xSnakePosition = randomGridCoordinates.randomXPosition;
+    snake.ySnakePosition = randomGridCoordinates.randomYPosition;
+
+    snakeElement.style.gridArea = `${snake.ySnakePosition}/${snake.xSnakePosition}`;
+
+    playBoardElement.appendChild(snakeElement);
+  }
+
+  document.addEventListener("keydown", (event) => {
+    console.log(event);
+    if (event.key === "ArrowUp") {
+      snake.ySnakePosition--;
+      snakeElement.style.gridArea = `${snake.ySnakePosition}/${snake.xSnakePosition}`;
+    }
+    if (event.key === "ArrowRight") {
+      snake.xSnakePosition++;
+      snakeElement.style.gridArea = `${snake.ySnakePosition}/${snake.xSnakePosition}`;
+    }
+    if (event.key === "ArrowDown") {
+      snake.ySnakePosition++;
+      snakeElement.style.gridArea = `${snake.ySnakePosition}/${snake.xSnakePosition}`;
+    }
+    if (event.key === "ArrowLeft") {
+      snake.xSnakePosition--;
+      snakeElement.style.gridArea = `${snake.ySnakePosition}/${snake.xSnakePosition}`;
+    }
+  });
 }
 
 function geRandomGridCoordinates(gridSize) {
