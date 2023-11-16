@@ -1,7 +1,7 @@
 import "./reset.css";
 import "./style.css";
 
-const gridSize = 21;
+const gridSize = 30;
 const playBoardElement = document.querySelector(".play-board");
 
 let food = { xFoodPosition: null, yFoodPosition: null };
@@ -27,7 +27,7 @@ function startGame() {
     clearInterval(setIntervalId);
   }
 
-  setIntervalId = setInterval(moveSnake, 150);
+  setIntervalId = setInterval(moveSnake, 100);
 }
 
 function displayFood() {
