@@ -5,13 +5,20 @@ const gridSize = 21;
 const playBoardElement = document.querySelector(".play-board");
 
 let food = { xFoodPosition: null, yFoodPosition: null };
-let snake = { xSnakePosition: null, ySnakePosition: null };
+let snake = {
+  xSnakePosition: null,
+  ySnakePosition: null,
+  xSnakeVelocity: 1,
+  ySnakeVelocity: 0,
+};
 
 startGame();
 
 function startGame() {
+  initSnake();
   displayFood();
-  displayAndMoveSnake();
+  document.addEventListener("keydown", handleKeyPress);
+  setInterval(moveSnake, 200);
 }
 
 function displayFood() {
@@ -26,39 +33,47 @@ function displayFood() {
   playBoardElement.appendChild(foodElement);
 }
 
-function displayAndMoveSnake() {
+function initSnake() {
   const snakeElement = document.createElement("div");
   snakeElement.classList.add("play-board__snake");
 
-  if (snake.xSnakePosition === null && snake.ySnakePosition === null) {
-    const randomGridCoordinates = geRandomGridCoordinates(gridSize);
-    snake.xSnakePosition = randomGridCoordinates.randomXPosition;
-    snake.ySnakePosition = randomGridCoordinates.randomYPosition;
+  const randomGridCoordinates = geRandomGridCoordinates(gridSize);
+  snake.xSnakePosition = randomGridCoordinates.randomXPosition;
+  snake.ySnakePosition = randomGridCoordinates.randomYPosition;
 
-    snakeElement.style.gridArea = `${snake.ySnakePosition}/${snake.xSnakePosition}`;
+  snakeElement.style.gridArea = `${snake.ySnakePosition}/${snake.xSnakePosition}`;
 
-    playBoardElement.appendChild(snakeElement);
+  playBoardElement.appendChild(snakeElement);
+}
+
+function moveSnake() {
+  const snakeElement = document.querySelector(".play-board__snake");
+
+  snake.xSnakePosition += snake.xSnakeVelocity;
+  snake.ySnakePosition += snake.ySnakeVelocity;
+
+  snakeElement.style.gridArea = `${snake.ySnakePosition}/${snake.xSnakePosition}`;
+}
+
+function handleKeyPress(event) {
+  switch (event.key) {
+    case "ArrowUp":
+      snake.ySnakeVelocity = -1;
+      snake.xSnakeVelocity = 0;
+      break;
+    case "ArrowDown":
+      snake.ySnakeVelocity = 1;
+      snake.xSnakeVelocity = 0;
+      break;
+    case "ArrowLeft":
+      snake.xSnakeVelocity = -1;
+      snake.ySnakeVelocity = 0;
+      break;
+    case "ArrowRight":
+      snake.xSnakeVelocity = 1;
+      snake.ySnakeVelocity = 0;
+      break;
   }
-
-  document.addEventListener("keydown", (event) => {
-    console.log(event);
-    if (event.key === "ArrowUp") {
-      snake.ySnakePosition--;
-      snakeElement.style.gridArea = `${snake.ySnakePosition}/${snake.xSnakePosition}`;
-    }
-    if (event.key === "ArrowRight") {
-      snake.xSnakePosition++;
-      snakeElement.style.gridArea = `${snake.ySnakePosition}/${snake.xSnakePosition}`;
-    }
-    if (event.key === "ArrowDown") {
-      snake.ySnakePosition++;
-      snakeElement.style.gridArea = `${snake.ySnakePosition}/${snake.xSnakePosition}`;
-    }
-    if (event.key === "ArrowLeft") {
-      snake.xSnakePosition--;
-      snakeElement.style.gridArea = `${snake.ySnakePosition}/${snake.xSnakePosition}`;
-    }
-  });
 }
 
 function geRandomGridCoordinates(gridSize) {
