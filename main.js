@@ -104,23 +104,18 @@ function moveSnake() {
 }
 
 function handleKeyPress(event) {
-  switch (event.key) {
-    case "ArrowUp":
-      snake.xSnakeVelocity = 0;
-      snake.ySnakeVelocity = -1;
-      break;
-    case "ArrowDown":
-      snake.xSnakeVelocity = 0;
-      snake.ySnakeVelocity = 1;
-      break;
-    case "ArrowLeft":
-      snake.xSnakeVelocity = -1;
-      snake.ySnakeVelocity = 0;
-      break;
-    case "ArrowRight":
-      snake.xSnakeVelocity = 1;
-      snake.ySnakeVelocity = 0;
-      break;
+  if (event.key === "ArrowUp" && snake.ySnakeVelocity !== 1) {
+    snake.xSnakeVelocity = 0;
+    snake.ySnakeVelocity = -1;
+  } else if (event.key === "ArrowDown" && snake.ySnakeVelocity !== -1) {
+    snake.xSnakeVelocity = 0;
+    snake.ySnakeVelocity = 1;
+  } else if (event.key === "ArrowLeft" && snake.xSnakeVelocity !== 1) {
+    snake.xSnakeVelocity = -1;
+    snake.ySnakeVelocity = 0;
+  } else if (event.key === "ArrowRight" && snake.xSnakeVelocity !== -1) {
+    snake.xSnakeVelocity = 1;
+    snake.ySnakeVelocity = 0;
   }
 }
 
