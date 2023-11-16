@@ -1,7 +1,7 @@
 import "./reset.css";
 import "./style.css";
 
-const gridSize = 19;
+const gridSize = 21;
 const playBoardElement = document.querySelector(".play-board");
 
 let food = { xFoodPosition: null, yFoodPosition: null };
@@ -13,14 +13,21 @@ let snake = {
   body: [],
 };
 let score = 0;
+let setIntervalId;
 
 startGame();
 
 function startGame() {
   displayFood();
   initSnake();
+
   document.addEventListener("keydown", handleKeyPress);
-  setInterval(moveSnake, 150);
+
+  if (setIntervalId) {
+    clearInterval(setIntervalId);
+  }
+
+  setIntervalId = setInterval(moveSnake, 200);
 }
 
 function displayFood() {
@@ -54,6 +61,17 @@ function moveSnake() {
   snakeElements.forEach((element) => {
     element.remove();
   });
+
+  if (
+    snake.xSnakePosition <= 0 ||
+    snake.xSnakePosition > gridSize ||
+    snake.ySnakePosition <= 0 ||
+    snake.ySnakePosition > gridSize
+  ) {
+    alert("Game Over!");
+    resetGame();
+    return;
+  }
 
   // Update the snake's head position based on its velocity
   snake.xSnakePosition += snake.xSnakeVelocity;
@@ -130,4 +148,25 @@ function snakeEats() {
   snake.body.push([food.xFoodPosition, food.yFoodPosition]);
 
   displayFood();
+}
+
+function resetGame() {
+  const snakeElements = document.querySelectorAll(".play-board__snake");
+  snakeElements.forEach((element) => {
+    element.remove();
+  });
+
+  document.querySelector(".play-board__food").remove();
+
+  food = { xFoodPosition: null, yFoodPosition: null };
+  snake = {
+    xSnakePosition: null,
+    ySnakePosition: null,
+    xSnakeVelocity: 1,
+    ySnakeVelocity: 0,
+    body: [],
+  };
+  score = 0;
+
+  startGame();
 }
