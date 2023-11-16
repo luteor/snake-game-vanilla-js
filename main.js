@@ -27,7 +27,7 @@ function startGame() {
     clearInterval(setIntervalId);
   }
 
-  setIntervalId = setInterval(moveSnake, 200);
+  setIntervalId = setInterval(moveSnake, 150);
 }
 
 function displayFood() {
@@ -68,7 +68,7 @@ function moveSnake() {
     snake.ySnakePosition <= 0 ||
     snake.ySnakePosition > gridSize
   ) {
-    alert("Game Over!");
+    alert("Game Over!The snake hit the wall!");
     resetGame();
     return;
   }
@@ -96,6 +96,15 @@ function moveSnake() {
 
   // Create new elements for each segment of the snake's body and append them to the play board
   for (let i = 0; i < snake.body.length; i++) {
+    if (
+      i !== 0 &&
+      snake.body[0][1] === snake.body[i][1] &&
+      snake.body[0][0] === snake.body[i][0]
+    ) {
+      alert("Game Over! The snake ate its own tail!");
+      resetGame();
+      return;
+    }
     const snakeBodyElement = document.createElement("div");
     snakeBodyElement.classList.add("play-board__snake");
     snakeBodyElement.style.gridArea = `${snake.body[i][1]}/${snake.body[i][0]}`;
