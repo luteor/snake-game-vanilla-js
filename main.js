@@ -2,8 +2,9 @@ import "./reset.css";
 import "./style.css";
 
 const gridSize = 21;
-
 const playBoardElement = document.querySelector(".play-board");
+
+let food = { xFoodPosition: null, yFoodPosition: null };
 
 startGame();
 
@@ -13,10 +14,12 @@ function startGame() {
 
 function displayFood() {
   const randomGridCoordinates = geRandomGridCoordinates(gridSize);
+  food.xFoodPosition = randomGridCoordinates.randomXPosition;
+  food.yFoodPosition = randomGridCoordinates.randomYPosition;
 
   const foodElement = document.createElement("div");
   foodElement.classList.add("play-board__food");
-  foodElement.style.gridArea = `${randomGridCoordinates[1]}/${randomGridCoordinates[0]}`;
+  foodElement.style.gridArea = `${food.yFoodPosition}/${food.xFoodPosition}`;
 
   playBoardElement.appendChild(foodElement);
 }
@@ -28,7 +31,10 @@ function geRandomGridCoordinates(gridSize) {
   const yPosition = Math.floor(Math.random() * gridSize) + 1;
   console.log(yPosition);
 
-  const randomGridCoordinates = [xPosition, yPosition];
+  const randomGridCoordinates = {
+    randomXPosition: xPosition,
+    randomYPosition: yPosition,
+  };
 
   return randomGridCoordinates;
 }
