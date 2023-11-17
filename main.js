@@ -3,6 +3,8 @@ import "./style.css";
 
 const gridSize = 30;
 const playBoardElement = document.querySelector(".play-board");
+const gameControlsELements = document.querySelectorAll(".game-controls img");
+console.log(gameControlsELements);
 
 let food = { xFoodPosition: null, yFoodPosition: null };
 let snake = {
@@ -23,6 +25,12 @@ function startGame() {
   displayHighScore();
   displayFood();
   initSnake();
+
+  gameControlsELements.forEach((control) => {
+    control.addEventListener("click", () =>
+      handleKeyPress({ key: control.dataset.control })
+    );
+  });
 
   document.addEventListener("keydown", handleKeyPress);
 

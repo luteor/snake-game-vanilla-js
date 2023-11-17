@@ -33,3 +33,13 @@ body {
 .play-board__food {
   background-color: #BDE038;
 }
+
+.game-controls {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+}
+
+.game-controls img {
+  height: 50px;
+}
