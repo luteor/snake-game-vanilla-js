@@ -13,11 +13,14 @@ let snake = {
   body: [],
 };
 let score = 0;
+let highScore = localStorage.getItem("highScore") || 0;
 let setIntervalId;
 
 startGame();
 
 function startGame() {
+  displayScore();
+  displayHighScore();
   displayFood();
   initSnake();
 
@@ -130,10 +133,8 @@ function handleKeyPress(event) {
 
 function geRandomGridCoordinates(gridSize) {
   const xPosition = Math.floor(Math.random() * gridSize) + 1;
-  console.log(xPosition);
 
   const yPosition = Math.floor(Math.random() * gridSize) + 1;
-  console.log(yPosition);
 
   const randomGridCoordinates = {
     randomXPosition: xPosition,
@@ -145,9 +146,9 @@ function geRandomGridCoordinates(gridSize) {
 
 function snakeEats() {
   document.querySelector(".play-board__food").remove();
+
   score++;
-  const scoreElement = document.querySelector(".game-details__score");
-  scoreElement.textContent = `Score:${score}`;
+  displayScore();
 
   snake.body.push([food.xFoodPosition, food.yFoodPosition]);
 
@@ -162,6 +163,8 @@ function resetGame() {
 
   document.querySelector(".play-board__food").remove();
 
+  updateHighScore();
+
   food = { xFoodPosition: null, yFoodPosition: null };
   snake = {
     xSnakePosition: null,
@@ -171,6 +174,23 @@ function resetGame() {
     body: [],
   };
   score = 0;
+  highScore = localStorage.getItem("highScore") || 0;
 
   startGame();
+}
+
+function displayScore() {
+  const scoreElement = document.querySelector(".game-details__score");
+  scoreElement.textContent = `Score : ${score}`;
+}
+
+function displayHighScore() {
+  const highScoreElement = document.querySelector(".game-details__high-score");
+  highScoreElement.textContent = `High Score : ${highScore}`;
+}
+
+function updateHighScore() {
+  if (highScore === 0 || score > parseInt(highScore)) {
+    localStorage.setItem("highScore", score);
+  }
 }
