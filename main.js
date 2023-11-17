@@ -3,7 +3,7 @@ import "./style.css";
 
 const gridSize = 30;
 const playBoardElement = document.querySelector(".play-board");
-const gameControlsELements = document.querySelectorAll(".game-controls img");
+const gameControlsELements = document.querySelectorAll(".game-controls button");
 console.log(gameControlsELements);
 
 let food = { xFoodPosition: null, yFoodPosition: null };
