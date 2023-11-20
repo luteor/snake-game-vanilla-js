@@ -138,9 +138,9 @@ function handleKeyPress(event) {
 }
 
 function geRandomGridCoordinates(gridSize) {
-  const xPosition = Math.floor(Math.random() * (gridSize - 2)) + 1;
+  const xPosition = Math.floor(Math.random() * (gridSize - 3)) + 2;
 
-  const yPosition = Math.floor(Math.random() * (gridSize - 2)) + 1;
+  const yPosition = Math.floor(Math.random() * (gridSize - 3)) + 2;
 
   const randomGridCoordinates = {
     randomXPosition: xPosition,
