@@ -8,8 +8,8 @@ console.log(gameControlsELements);
 
 let food = { xFoodPosition: null, yFoodPosition: null };
 let snake = {
-  xSnakePosition: null,
-  ySnakePosition: null,
+  xSnakePosition: 5,
+  ySnakePosition: 15,
   xSnakeVelocity: 1,
   ySnakeVelocity: 0,
   body: [],
@@ -38,7 +38,9 @@ function startGame() {
     clearInterval(setIntervalId);
   }
 
-  setIntervalId = setInterval(moveSnake, 100);
+  setTimeout(() => {
+    setIntervalId = setInterval(moveSnake, 100);
+  }, 2000);
 }
 
 function displayFood() {
@@ -56,10 +58,6 @@ function displayFood() {
 function initSnake() {
   const snakeHeadElement = document.createElement("div");
   snakeHeadElement.classList.add("play-board__snake");
-
-  const randomGridCoordinates = geRandomGridCoordinates(gridSize);
-  snake.xSnakePosition = randomGridCoordinates.randomXPosition;
-  snake.ySnakePosition = randomGridCoordinates.randomYPosition;
 
   snakeHeadElement.style.gridArea = `${snake.ySnakePosition}/${snake.xSnakePosition}`;
 
@@ -175,8 +173,8 @@ function resetGame() {
 
   food = { xFoodPosition: null, yFoodPosition: null };
   snake = {
-    xSnakePosition: null,
-    ySnakePosition: null,
+    xSnakePosition: 5,
+    ySnakePosition: 15,
     xSnakeVelocity: 1,
     ySnakeVelocity: 0,
     body: [],
