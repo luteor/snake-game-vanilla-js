@@ -38,7 +38,7 @@ function startGame() {
     clearInterval(setIntervalId);
   }
 
-  // setIntervalId = setInterval(moveSnake, 100);
+  setIntervalId = setInterval(moveSnake, 100);
 }
 
 function displayFood() {
@@ -74,10 +74,10 @@ function moveSnake() {
   });
 
   if (
-    snake.xSnakePosition <= 0 ||
-    snake.xSnakePosition > gridSize ||
-    snake.ySnakePosition <= 0 ||
-    snake.ySnakePosition > gridSize
+    snake.xSnakePosition <= 1 ||
+    snake.xSnakePosition >= gridSize ||
+    snake.ySnakePosition <= 1 ||
+    snake.ySnakePosition >= gridSize
   ) {
     alert("Game Over!The snake hit the wall!");
     resetGame();
@@ -140,9 +140,9 @@ function handleKeyPress(event) {
 }
 
 function geRandomGridCoordinates(gridSize) {
-  const xPosition = Math.floor(Math.random() * gridSize) + 1;
+  const xPosition = Math.floor(Math.random() * gridSize);
 
-  const yPosition = Math.floor(Math.random() * gridSize) + 1;
+  const yPosition = Math.floor(Math.random() * gridSize);
 
   const randomGridCoordinates = {
     randomXPosition: xPosition,
