@@ -27,11 +27,11 @@ function startGame() {
 
   gameControlsELements.forEach((control) => {
     control.addEventListener("click", () =>
-      handleKeyPress({ key: control.dataset.control })
+      changeSnakeDirections({ key: control.dataset.control })
     );
   });
 
-  document.addEventListener("keydown", handleKeyPress);
+  document.addEventListener("keydown", changeSnakeDirections);
 
   if (setIntervalId) {
     clearInterval(setIntervalId);
@@ -120,19 +120,29 @@ function moveSnake() {
   }
 }
 
-function handleKeyPress(event) {
+function changeSnakeDirections(event) {
   if (event.key === "ArrowUp" && snake.ySnakeVelocity !== 1) {
     snake.xSnakeVelocity = 0;
     snake.ySnakeVelocity = -1;
-  } else if (event.key === "ArrowDown" && snake.ySnakeVelocity !== -1) {
+    return;
+  }
+
+  if (event.key === "ArrowDown" && snake.ySnakeVelocity !== -1) {
     snake.xSnakeVelocity = 0;
     snake.ySnakeVelocity = 1;
-  } else if (event.key === "ArrowLeft" && snake.xSnakeVelocity !== 1) {
+    return;
+  }
+
+  if (event.key === "ArrowLeft" && snake.xSnakeVelocity !== 1) {
     snake.xSnakeVelocity = -1;
     snake.ySnakeVelocity = 0;
-  } else if (event.key === "ArrowRight" && snake.xSnakeVelocity !== -1) {
+    return;
+  }
+
+  if (event.key === "ArrowRight" && snake.xSnakeVelocity !== -1) {
     snake.xSnakeVelocity = 1;
     snake.ySnakeVelocity = 0;
+    return;
   }
 }
 
