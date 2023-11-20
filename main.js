@@ -4,7 +4,6 @@ import "./style.css";
 const gridSize = 30;
 const playBoardElement = document.querySelector(".play-board");
 const gameControlsELements = document.querySelectorAll(".game-controls button");
-console.log(gameControlsELements);
 
 let food = { xFoodPosition: null, yFoodPosition: null };
 let snake = {
@@ -40,7 +39,7 @@ function startGame() {
 
   setTimeout(() => {
     setIntervalId = setInterval(moveSnake, 100);
-  }, 2000);
+  }, 1000);
 }
 
 function displayFood() {
@@ -139,7 +138,6 @@ function handleKeyPress(event) {
 
 function geRandomGridCoordinates(gridSize) {
   const xPosition = Math.floor(Math.random() * (gridSize - 3)) + 2;
-
   const yPosition = Math.floor(Math.random() * (gridSize - 3)) + 2;
 
   const randomGridCoordinates = {
