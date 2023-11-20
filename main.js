@@ -42,8 +42,18 @@ function startGame() {
   }, 1000);
 }
 
+function displayScore() {
+  const scoreElement = document.querySelector(".game-details__score");
+  scoreElement.textContent = `Score : ${score}`;
+}
+
+function displayHighScore() {
+  const highScoreElement = document.querySelector(".game-details__high-score");
+  highScoreElement.textContent = `High Score : ${highScore}`;
+}
+
 function displayFood() {
-  const randomGridCoordinates = geRandomGridCoordinates(gridSize);
+  const randomGridCoordinates = getRandomGridCoordinates(gridSize);
   food.xFoodPosition = randomGridCoordinates.randomXPosition;
   food.yFoodPosition = randomGridCoordinates.randomYPosition;
 
@@ -63,6 +73,44 @@ function initSnake() {
   playBoardElement.appendChild(snakeHeadElement);
 }
 
+function getRandomGridCoordinates(gridSize) {
+  const xPosition = Math.floor(Math.random() * (gridSize - 3)) + 2;
+  const yPosition = Math.floor(Math.random() * (gridSize - 3)) + 2;
+
+  const randomGridCoordinates = {
+    randomXPosition: xPosition,
+    randomYPosition: yPosition,
+  };
+
+  return randomGridCoordinates;
+}
+
+function changeSnakeDirections(event) {
+  if (event.key === "ArrowUp" && snake.ySnakeVelocity !== 1) {
+    snake.xSnakeVelocity = 0;
+    snake.ySnakeVelocity = -1;
+    return;
+  }
+
+  if (event.key === "ArrowDown" && snake.ySnakeVelocity !== -1) {
+    snake.xSnakeVelocity = 0;
+    snake.ySnakeVelocity = 1;
+    return;
+  }
+
+  if (event.key === "ArrowLeft" && snake.xSnakeVelocity !== 1) {
+    snake.xSnakeVelocity = -1;
+    snake.ySnakeVelocity = 0;
+    return;
+  }
+
+  if (event.key === "ArrowRight" && snake.xSnakeVelocity !== -1) {
+    snake.xSnakeVelocity = 1;
+    snake.ySnakeVelocity = 0;
+    return;
+  }
+}
+
 function moveSnake() {
   // Remove all existing snake elements from the play board
   const snakeElements = document.querySelectorAll(".play-board__snake");
@@ -76,7 +124,7 @@ function moveSnake() {
     snake.ySnakePosition <= 1 ||
     snake.ySnakePosition >= gridSize
   ) {
-    alert("Game Over!The snake hit the wall!");
+    alert("Game Over! The snake hit the wall!");
     resetGame();
     return;
   }
@@ -120,44 +168,6 @@ function moveSnake() {
   }
 }
 
-function changeSnakeDirections(event) {
-  if (event.key === "ArrowUp" && snake.ySnakeVelocity !== 1) {
-    snake.xSnakeVelocity = 0;
-    snake.ySnakeVelocity = -1;
-    return;
-  }
-
-  if (event.key === "ArrowDown" && snake.ySnakeVelocity !== -1) {
-    snake.xSnakeVelocity = 0;
-    snake.ySnakeVelocity = 1;
-    return;
-  }
-
-  if (event.key === "ArrowLeft" && snake.xSnakeVelocity !== 1) {
-    snake.xSnakeVelocity = -1;
-    snake.ySnakeVelocity = 0;
-    return;
-  }
-
-  if (event.key === "ArrowRight" && snake.xSnakeVelocity !== -1) {
-    snake.xSnakeVelocity = 1;
-    snake.ySnakeVelocity = 0;
-    return;
-  }
-}
-
-function geRandomGridCoordinates(gridSize) {
-  const xPosition = Math.floor(Math.random() * (gridSize - 3)) + 2;
-  const yPosition = Math.floor(Math.random() * (gridSize - 3)) + 2;
-
-  const randomGridCoordinates = {
-    randomXPosition: xPosition,
-    randomYPosition: yPosition,
-  };
-
-  return randomGridCoordinates;
-}
-
 function snakeEats() {
   document.querySelector(".play-board__food").remove();
 
@@ -191,16 +201,6 @@ function resetGame() {
   highScore = localStorage.getItem("highScore") || 0;
 
   startGame();
-}
-
-function displayScore() {
-  const scoreElement = document.querySelector(".game-details__score");
-  scoreElement.textContent = `Score : ${score}`;
-}
-
-function displayHighScore() {
-  const highScoreElement = document.querySelector(".game-details__high-score");
-  highScoreElement.textContent = `High Score : ${highScore}`;
 }
 
 function updateHighScore() {
