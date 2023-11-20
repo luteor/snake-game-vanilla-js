@@ -38,7 +38,7 @@ function startGame() {
     clearInterval(setIntervalId);
   }
 
-  setIntervalId = setInterval(moveSnake, 100);
+  // setIntervalId = setInterval(moveSnake, 100);
 }
 
 function displayFood() {
